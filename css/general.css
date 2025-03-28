@@ -1,0 +1,255 @@
+/*
+--- 01 TYPOGRAPHY SYSTEM
+
+- Font sizes (px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+
+- Font weights
+Default: 
+Medium: 
+Semi-bold: 
+Bold: 
+
+- Line heights
+Default: 
+Small: 
+Medium: 
+Paragraph default: 
+Large: 
+
+- Letter spacing
+
+
+--- 02 COLORS
+
+- Primary: 
+
+- Tints:
+
+- Shades: 
+
+
+- Accents:
+- Greys:
+
+
+--- 05 SHADOWS
+
+
+--- 06 BORDER-RADIUS
+
+Default: 
+Medium: 
+
+--- 07 WHITESPACE
+
+- Spacing system (px)
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+
+
+*/
+
+:root {
+  --backGround-color: #110b53;
+  --lightBlue-color: #044b8d;
+  --pink-color: #68065c;
+  --white-color: #fff;
+}
+.lightmode {
+  --backGround-color: #fff;
+  --white-color: #000;
+  --pink-color: #daa6c9;
+  --lightBlue-color: #96b2ce;
+}
+* {
+  margin: 0 0;
+  padding: 0 0;
+  box-sizing: border-box;
+  text-align: right;
+}
+
+html {
+  /* font-size: 10px; */
+  /* 16px is defualt browser font size */
+  /* 10px / 16px = 0.625 = 62.5% */
+  /* Percentage of user's browser font-size setting */
+  font-size: 62.5%;
+  overflow-x: hidden;
+
+  /* Does NOT work on Safari */
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Yekan Bakh", sans-serif;
+  line-height: 1;
+  font-weight: 400;
+  color: var(--white-color);
+
+  /* Only works if there is nothing absolutely positioned in relation to body */
+  overflow-x: hidden;
+
+  background:
+
+  /* top left */ radial-gradient(
+      circle at top left,
+      var(--lightBlue-color),
+      var(--backGround-color),
+      transparent 20%
+    ),
+    /* Adjusted the stops */ /* top right */
+      radial-gradient(
+        circle at top right,
+        var(--pink-color),
+        var(--backGround-color),
+        transparent 20%
+      ),
+    /* bottom left */
+      radial-gradient(
+        circle at bottom left,
+        var(--pink-color),
+        var(--backGround-color),
+        var(--backGround-color),
+        var(--backGround-color),
+        transparent 20%
+      ),
+    /* bottom right */
+      radial-gradient(
+        circle at bottom right,
+        var(--lightBlue-color),
+        var(--backGround-color),
+        var(--backGround-color),
+        var(--backGround-color),
+        transparent 20%
+      ),
+    /* right mid */ /* top right */
+      radial-gradient(
+        circle at 100% 29%,
+        var(--pink-color),
+        var(--backGround-color),
+        transparent 20%
+      ),
+    /* center */
+      radial-gradient(
+        circle at 60% 38%,
+        var(--lightBlue-color),
+        var(--backGround-color),
+        var(--backGround-color),
+        transparent 30%
+      );
+
+  background-color: var(--backGround-color);
+}
+footer {
+  background: radial-gradient(
+    circle at 51% 30%,
+    var(--lightBlue-color),
+    var(--backGround-color),
+    transparent 60%
+  );
+}
+
+.sub-logo {
+  filter: sepia(100%);
+}
+.container {
+  max-width: 140rem;
+  padding: 0 3.2rem;
+  margin: 0 auto;
+}
+
+.doran {
+  font-family: "Doran";
+  font-weight: 700;
+}
+#doran {
+  font-family: "Doran";
+  font-weight: 700;
+}
+.grid {
+  display: grid;
+  column-gap: 6.4rem;
+  row-gap: 9.6rem;
+}
+
+/* .grid:last-child {
+  margin-bottom: 0;
+} */
+
+.grid:not(:last-child) {
+  margin-bottom: 9.6rem;
+}
+
+.grid--2-cols {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--3-cols {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--4-cols {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* .grid--5-cols {
+  grid-template-columns: repeat(5, 1fr);
+} */
+
+.grid--center-v {
+  align-items: center;
+}
+
+.heading-primary,
+.heading-secondary,
+.heading-tertiary {
+  font-weight: 700;
+  color: var(--white-color);
+  letter-spacing: -0.5px;
+}
+
+.heading-primary {
+  font-size: 5.2rem;
+  line-height: 1.05;
+  margin-bottom: 3.2rem;
+  color: var(--white-color);
+}
+
+.heading-secondary {
+  font-size: 3.2rem;
+  line-height: 1.2;
+  margin-bottom: 9.6rem;
+  color: var(--white-color);
+}
+
+.heading-tertiary {
+  font-size: 3rem;
+  line-height: 1.2;
+  margin-bottom: 3.2rem;
+  color: var(--white-color);
+  direction: rtl;
+}
+.heading-number {
+  font-size: 3.2rem;
+}
+
+/* theme switch: */
+.theme-switch svg:last-child {
+  display: none;
+}
+.lightmode .theme-switch svg:first-child {
+  display: none;
+}
+.lightmode .theme-switch svg:last-child {
+  display: block;
+}
+/*theme switch mobile: */
+.theme-switch--2 svg:last-child {
+  display: none;
+}
+.lightmode .theme-switch--2 svg:first-child {
+  display: none;
+}
+.lightmode .theme-switch--2 svg:last-child {
+  display: block;
+}
