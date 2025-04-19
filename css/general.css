@@ -74,10 +74,15 @@ html {
   /* 10px / 16px = 0.625 = 62.5% */
   /* Percentage of user's browser font-size setting */
   font-size: 62.5%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 
   /* Does NOT work on Safari */
   scroll-behavior: smooth;
+}
+
+main {
+  overflow: hidden;
+  margin-top: -15rem;
 }
 
 body {
@@ -140,6 +145,11 @@ body {
 
   background-color: var(--backGround-color);
 }
+
+section {
+  transition: transform 1s, opacity 1s;
+}
+
 footer {
   background: radial-gradient(
     circle at 51% 30%,
@@ -148,7 +158,9 @@ footer {
     transparent 60%
   );
 }
-
+.lazy-img {
+  filter: blur(20px);
+}
 .sub-logo {
   filter: sepia(100%);
 }

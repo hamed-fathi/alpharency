@@ -64,14 +64,21 @@
 }
 
 .main-nav {
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-around;
   height: 9.6rem;
   align-items: center;
   margin-bottom: 3.2rem;
+  z-index: 9999;
+  /* height: 1px;
+  bottom: 1px;
+  -webkit-backdrop-filter: blur(20px); */
+  backdrop-filter: blur(20px);
 }
 
-.sticky {
+/* .sticky {
   position: fixed;
   top: 0;
   left: 0;
@@ -80,12 +87,19 @@
   width: 100%;
   z-index: 9999;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+} */
+
 .scroll {
   /* Add these properties for scrollability */
-  height: 55rem !important; /* or whatever height you prefer */
+  height: 100rem !important;
   overflow-y: auto; /* enables vertical scrolling when content overflows */
   -webkit-overflow-scrolling: touch; /* for smooth scrolling on iOS */
+}
+
+/* section scroll reveal */
+.section--hidden {
+  opacity: 0;
+  transform: translateY(8rem);
 }
 .heading-primary--total {
   display: flex;
@@ -226,6 +240,8 @@
   display: flex;
   gap: 25.6rem;
   direction: rtl;
+  margin-top: 20rem;
+  margin-bottom: 25rem;
 }
 
 .hero-img {
@@ -308,8 +324,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 3.2rem;
-  padding-top: 18.9rem;
-  margin-top: 20rem;
+  margin-top: 2rem;
 }
 
 .courses {
@@ -798,6 +813,7 @@
   color: var(--whiteToBlue-color);
 }
 .cat-mobile-right {
+  display: none;
   width: 5rem;
   height: 5rem;
   position: absolute;
@@ -806,6 +822,7 @@
   z-index: 999;
 }
 .cat-mobile-left {
+  display: none;
   width: 5rem;
   height: 5rem;
   position: absolute;
@@ -814,6 +831,7 @@
   z-index: 999;
 }
 .slider-mdots {
+  display: none;
   margin-bottom: 1rem;
   position: absolute;
   top: 52.5%;
@@ -1502,8 +1520,9 @@
   padding-top: 18.9rem;
   background-color: var(--accentBlue-color);
   padding: 9.8rem 0;
-  height: 50rem;
+  height: 58rem;
   position: relative;
+  overflow-x: hidden;
 }
 
 .testimonial-header {
@@ -1554,7 +1573,7 @@
   position: relative;
   padding-left: 0;
   max-width: 120rem;
-  direction: ltr;
+  direction: rtl;
 }
 
 .testimonial-body .subheader {
@@ -1583,6 +1602,7 @@
   /* for over flow to work correctlly: */
   height: 20rem;
   width: 98rem;
+  direction: ltr;
 
   .slider {
     transition: transform 0.5s ease-in-out;
@@ -1917,4 +1937,29 @@
   font-weight: 400;
   color: var(--copyRight-color);
   text-align: center;
+}
+
+/********************************/
+/* cookie */
+/********************************/
+
+.cookie {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  background-color: var(--darkestBlue-color);
+  color: var(--whiteToBlack-color);
+  font-size: 1.5rem;
+  font-weight: 400;
+  padding: 0.9rem 3.2rem;
+  border-radius: 12px;
+  margin: 10rem 0;
+}
+.cookie-btn {
+  background-color: var(--whiteToBlack-color);
+  color: var(--blackToWhite-color);
+  padding: 0.8rem 1.2rem;
+  border-radius: 12px;
+  border: none;
 }

@@ -4,40 +4,70 @@
 const btnBackToTop = document.querySelector(`.arrow-top-container`);
 const header = document.querySelector(`.header`);
 const sectionHero = document.querySelector(`.section-hero`);
-const sectionFaq = document.querySelector(`.section-faq`);
-const faqBtn = document.querySelector(`.faq`);
+const sectionTest = document.querySelector(`.section-testimonials`);
+const testBtn = document.querySelector(`.test-btn`);
 const aboutUsBtn = document.querySelector(`.about-us`);
 const sectionStatues = document.querySelector(`.section-statues`);
 const contactUsBtn = document.querySelector(`.contact-us`);
 const footer = document.querySelector(`.footer`);
 const mainNav = document.querySelector(`.main-nav`);
 const sectionCourses = document.querySelector(`.section-courses`);
+
 ////////////////////////////////////////
+// cookie mesaage:
+const message = document.createElement(`div`);
+message.classList.add(`cookie`);
+message.innerHTML = `We use cookies for improvment. <button class="cookie-btn">Got it!</button>`;
+header.append(message);
+const cookieBtn = document.querySelector(`.cookie-btn`);
+cookieBtn.addEventListener(`click`, () => {
+  message.remove();
+  // or:
+  // message.classList.add(`hidden`);
+});
+
+////////////////////////////////////////
+// sticky nav height:
+const mainNavHeight = mainNav.getBoundingClientRect().height;
+
 //scroll codes:
-
 // back to top btn:
-btnBackToTop.addEventListener(`click`, function (e) {
-  e.preventDefault();
-  header.scrollIntoView({ behavior: "smooth" });
-});
+// //new way(best when you dont have sticky nav):
+// btnBackToTop.addEventListener(`click`, function (e) {
+//   e.preventDefault();
+//   header.scrollIntoView({ behavior: "smooth" });
+// });
 
-// scroll to faq:
-faqBtn.addEventListener("click", function (e) {
-  e.preventDefault();
-  sectionFaq.scrollIntoView({ behavior: `smooth` });
-});
+// use old method becuse of sticky nav:
+const scroller = function (btn, to) {
+  btn.addEventListener(`click`, function (e) {
+    e.preventDefault();
+    // Check if elements exist
+    if (!btn || !to) {
+      console.error("Button not found!");
+      return;
+    }
+    window.scrollTo({
+      left: to.getBoundingClientRect().left + pageXOffset,
+      top: to.getBoundingClientRect().top + pageYOffset - mainNavHeight,
+      behavior: `smooth`,
+    });
+  });
+};
+scroller(btnBackToTop, header);
+
+// //scroll to faq:
+scroller(testBtn, sectionTest);
 
 // scroll to about us:
-aboutUsBtn.addEventListener(`click`, function (e) {
-  e.preventDefault();
-  sectionStatues.scrollIntoView({ behavior: "smooth" });
-});
+scroller(aboutUsBtn, sectionStatues);
 
 ////////////////////////////////////////
-//sticky navigation:
+// //js way of sticky navigation:
 // const navHeight = mainNav.getBoundingClientRect().height;
 
 // const obsCallback = function (entries) {
+// // --- entries is arrays of thresholds ---
 //   const [entry] = entries;
 //   if (!entry.isIntersecting) {
 //     mainNav.classList.add(`sticky`);
@@ -48,12 +78,136 @@ aboutUsBtn.addEventListener(`click`, function (e) {
 
 // const headerObserver = new IntersectionObserver(obsCallback, {
 //   root: null,
-//   threshold: 0.01, // Use a tiny threshold instead of 0
-//   rootMargin: `-${navHeight}px 0px 0px 0px`, // Explicitly define margins
+//   threshold: 0.1,
+//   rootMargin: `-${navHeight}px 0px 0px 0px`,
 // });
 
-headerObserver.observe(header);
+// headerObserver.observe(header);
 ///////////////////////////////////////
+
+/////////////////////////// revealing on scroll:
+const allSections = document.querySelectorAll(`section`);
+
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove(`section--hidden`);
+  observer.unobserve(entry.target);
+};
+
+const sectionObs = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  section.classList.add(`section--hidden`);
+  sectionObs.observe(section);
+});
+
+///////////////////////////lazy loading images:
+const imgTarget = document.querySelectorAll(`img[data-src]`);
+
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  // replace src with data-src
+  entry.target.src = entry.target.dataset.src;
+  // after chainging src, load event would be fired
+  entry.target.addEventListener(`load`, () => {
+    entry.target.classList.remove(`lazy-img`);
+  });
+  observer.unobserve(entry.target);
+};
+
+const imgObs = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  // rootMargin:`200px`,
+});
+
+imgTarget.forEach((img) => {
+  imgObs.observe(img);
+});
+
+/////////////////////////// fade nav links and icons:
+const fadeNav = function (eventName, hoverEl, commenParent, opacity) {
+  mainNav.addEventListener(`${eventName}`, function (e) {
+    if (e.target.closest(`.${hoverEl}`)) {
+      const hovered = e.target.closest(`.${hoverEl}`);
+      const sibling = hovered
+        .closest(`.${commenParent}`)
+        .querySelectorAll(`.${hoverEl}`);
+      sibling.forEach((el) => {
+        if (el !== hovered) {
+          el.style.opacity = `${opacity}`;
+        }
+      });
+    }
+  });
+};
+fadeNav(`mouseover`, `header-text`, `header-links`, 0.5);
+fadeNav(`mouseout`, `header-text`, `header-links`, 1);
+fadeNav(`mouseover`, `list-item-icon`, `header-icons`, 0.5);
+fadeNav(`mouseout`, `list-item-icon`, `header-icons`, 1);
+
+// mainNav.addEventListener(`mouseover`, function (e) {
+//   if (e.target.closest(".header-text")) {
+//     const clicked = e.target;
+//     const sibling = clicked
+//       .closest(`.header-links`)
+//       .querySelectorAll(`.header-text`);
+//     sibling.forEach((el) => {
+//       if (el !== clicked) {
+//         el.style.opacity = 0.5;
+//       }
+//     });
+//   }
+// });
+
+// mainNav.addEventListener(`mouseout`, function (e) {
+//   if (e.target.closest(".header-text")) {
+//     const clicked = e.target;
+//     const sibling = clicked
+//       .closest(`.header-links`)
+//       .querySelectorAll(`.header-text`);
+//     sibling.forEach((el) => {
+//       if (el !== clicked) {
+//         el.style.opacity = 1;
+//       }
+//     });
+//   }
+// });
+
+// //used closest in clicked cus icons have more than just 1 element(svg inside):
+
+// mainNav.addEventListener(`mouseover`, function (e) {
+//   if (e.target.closest(`.list-item-icon`)) {
+//     const clicked = e.target.closest(".list-item-icon");
+//     const sibling = clicked
+//       .closest(`.header-icons`)
+//       .querySelectorAll(`.list-item-icon`);
+//     sibling.forEach((el) => {
+//       if (el !== clicked) {
+//         el.style.opacity = 0.5;
+//       }
+//     });
+//   }
+// });
+
+// mainNav.addEventListener(`mouseout`, function (e) {
+//   if (e.target.closest(`.list-item-icon`)) {
+//     const clicked = e.target.closest(".list-item-icon");
+//     const sibling = clicked
+//       .closest(`.header-icons`)
+//       .querySelectorAll(`.list-item-icon`);
+//     sibling.forEach((el) => {
+//       if (el !== clicked) {
+//         el.style.opacity = 1;
+//       }
+//     });
+//   }
+// });
 
 /////////////////////////// testimonial slider:
 const slides = document.querySelectorAll(`.slider`);
@@ -437,7 +591,6 @@ const goToCatMSlide = function (slide) {
         120 * (i - slide)
       }%)`)
   );
-  console.log(slide);
 };
 goToCatMSlide(curCatMSlide);
 
@@ -646,7 +799,7 @@ const bestSaleSlider = document.querySelector(`.all-cards-topcourse`);
 touchSupport(bestSaleSlider, nextTCSlide, prevTCSlide);
 //
 const testSlider = document.querySelector(`.slider-test`);
-touchSupport(testSlider, () => {}, nextSlide);
+touchSupport(testSlider, nextSlide, () => {});
 // // test
 // let startX = 0;
 // let endX = 0;
