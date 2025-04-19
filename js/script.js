@@ -35,22 +35,22 @@ aboutUsBtn.addEventListener(`click`, function (e) {
 
 ////////////////////////////////////////
 //sticky navigation:
-const navHeight = mainNav.getBoundingClientRect().height;
+// const navHeight = mainNav.getBoundingClientRect().height;
 
-const obsCallback = function (entries) {
-  const [entry] = entries;
-  if (!entry.isIntersecting) {
-    mainNav.classList.add(`sticky`);
-  } else {
-    mainNav.classList.remove(`sticky`);
-  }
-};
+// const obsCallback = function (entries) {
+//   const [entry] = entries;
+//   if (!entry.isIntersecting) {
+//     mainNav.classList.add(`sticky`);
+//   } else {
+//     mainNav.classList.remove(`sticky`);
+//   }
+// };
 
-const headerObserver = new IntersectionObserver(obsCallback, {
-  root: null,
-  threshold: 0.01, // Use a tiny threshold instead of 0
-  rootMargin: `-${navHeight}px 0px 0px 0px`, // Explicitly define margins
-});
+// const headerObserver = new IntersectionObserver(obsCallback, {
+//   root: null,
+//   threshold: 0.01, // Use a tiny threshold instead of 0
+//   rootMargin: `-${navHeight}px 0px 0px 0px`, // Explicitly define margins
+// });
 
 headerObserver.observe(header);
 ///////////////////////////////////////
