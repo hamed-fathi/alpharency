@@ -63,7 +63,6 @@ scroller(testBtn, sectionTest);
 scroller(aboutUsBtn, sectionStatues);
 
 ////////////////////////////////////////
-////////////////////////////////////////
 // //js way of sticky navigation:
 // const navHeight = mainNav.getBoundingClientRect().height;
 
