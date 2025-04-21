@@ -16,7 +16,6 @@ const cSlide = document.querySelectorAll(`.courses-card`);
 const leftArrow = document.querySelector(`.left-arrow`);
 const rightArrow = document.querySelector(`.right-arrow`);
 const cDotContainer = document.querySelector(`.slider-dots`);
-
 const tCSlide = document.querySelectorAll(`.top-courses-card`);
 const leftArrowTC = document.querySelector(`.left-arrow-topcourse`);
 const rightArrowTC = document.querySelector(`.right-arrow-topcourse`);
@@ -45,7 +44,8 @@ const categoriesSlider = document.querySelector(`.cat-slides`);
 const mobileCat = document.querySelector(`.cat-cards-mobile`);
 
 ////////////////////////////////////////
-// cookie mesaage:
+
+// --- cookie mesaage ---
 const message = document.createElement(`div`);
 message.classList.add(`cookie`);
 message.innerHTML = `We use cookies for improvment. <button class="cookie-btn">Got it!</button>`;
@@ -53,27 +53,26 @@ header.append(message);
 const cookieBtn = document.querySelector(`.cookie-btn`);
 cookieBtn.addEventListener(`click`, () => {
   message.remove();
-  // or:
+  // //or
   // message.classList.add(`hidden`);
 });
 
-////////////////////////////////////////
-// sticky nav height:
+// --- sticky nav height ---
 const mainNavHeight = mainNav.getBoundingClientRect().height;
 
-//scroll codes:
-// back to top btn:
-// //new way(best when you dont have sticky nav):
+// // --- scroll codes ---
+// // --- back to top btn ---
+// // --- new way(best when you dont have sticky nav) ---
 // btnBackToTop.addEventListener(`click`, function (e) {
 //   e.preventDefault();
 //   header.scrollIntoView({ behavior: "smooth" });
 // });
 
-// use old method becuse of sticky nav:
+// --- use old method becuse of sticky nav ---
 const scroller = function (btn, to) {
   btn.addEventListener(`click`, function (e) {
     e.preventDefault();
-    // Check if elements exist
+    // --- Check if elements exist ---
     if (!btn || !to) {
       console.error("Button not found!");
       return;
@@ -87,52 +86,31 @@ const scroller = function (btn, to) {
 };
 scroller(btnBackToTop, header);
 
-// //scroll to faq:
+// --- scroll to faq ---
 scroller(testBtn, sectionTest);
 
-// scroll to about us:
+// --- scroll to about us ---
 scroller(aboutUsBtn, sectionStatues);
 
-// // --- js way of sticky navigation ---
-// const navHeight = mainNav.getBoundingClientRect().height;
+// --- revealing on scroll ---
+const allSections = document.querySelectorAll(`section`);
 
-// const obsCallback = function (entries) {
-// // --- entries is arrays of thresholds ---
-//   const [entry] = entries;
-//   if (!entry.isIntersecting) {
-//     mainNav.classList.add(`sticky`);
-//   } else {
-//     mainNav.classList.remove(`sticky`);
-//   }
-// };
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove(`section--hidden`);
+  observer.unobserve(entry.target);
+};
 
-// const headerObserver = new IntersectionObserver(obsCallback, {
-//   root: null,
-//   threshold: 0.1,
-//   rootMargin: `-${navHeight}px 0px 0px 0px`,
-// });
+const sectionObs = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
 
-// headerObserver.observe(header);
-
-/////////////////////////// --- revealing on scroll ---:
-// const allSections = document.querySelectorAll(`section`);
-
-// const revealSection = function (entries, observer) {
-//   const [entry] = entries;
-//   if (!entry.isIntersecting) return;
-//   entry.target.classList.remove(`section--hidden`);
-//   observer.unobserve(entry.target);
-// };
-
-// const sectionObs = new IntersectionObserver(revealSection, {
-//   root: null,
-//   threshold: 0.15,
-// });
-
-// allSections.forEach(function (section) {
-//   section.classList.add(`section--hidden`);
-//   sectionObs.observe(section);
-// });
+allSections.forEach(function (section) {
+  section.classList.add(`section--hidden`);
+  sectionObs.observe(section);
+});
 
 //--- lazy loading images ---
 const imgTarget = document.querySelectorAll(`img[data-src]`);
@@ -265,23 +243,23 @@ const sliderFunc = function (
 
   activeDot(curSlide);
 
-  // // Add touch support for sliders
+  // // --- Add touch support for sliders ---
 
   let startX = 0;
   let endX = 0;
-  // Get the starting X position
+  // --- Get the starting X position ---
   sliderContainer.addEventListener(`touchstart`, (e) => {
     startX = e.touches[0].clientX;
   });
-  // Update the current X position
+  // --- Update the current X position ---
   sliderContainer.addEventListener(`touchmove`, (e) => {
     endX = e.touches[0].clientX;
   });
-  // calc move
+  // --- calc move ---
   sliderContainer.addEventListener(`touchend`, (e) => {
     const diffX = startX - endX;
     if (diffX > 50) {
-      //Swipe left
+      // --- Swipe left ---
       nextSlide();
     } else if (diffX < 50) {
       prevSlide();
@@ -379,7 +357,7 @@ sliderFunc(
   mobileCat
 );
 
-///////////////////////// light mode:
+// ---  light mode ---
 let lightMode = localStorage.getItem(`lightmode`);
 
 const themeSwitch = document.querySelector(`.theme-switch`);
@@ -470,6 +448,27 @@ mobileMenu.forEach((menu) => {
 //////////////////////////////////////////////////////
 
 // grave yard
+
+// // --- js way of sticky navigation ---
+// const navHeight = mainNav.getBoundingClientRect().height;
+
+// const obsCallback = function (entries) {
+// // --- entries is arrays of thresholds ---
+//   const [entry] = entries;
+//   if (!entry.isIntersecting) {
+//     mainNav.classList.add(`sticky`);
+//   } else {
+//     mainNav.classList.remove(`sticky`);
+//   }
+// };
+
+// const headerObserver = new IntersectionObserver(obsCallback, {
+//   root: null,
+//   threshold: 0.1,
+//   rootMargin: `-${navHeight}px 0px 0px 0px`,
+// });
+
+// headerObserver.observe(header);
 
 /////////////////////////// fade nav links and icons:
 // mainNav.addEventListener(`mouseover`, function (e) {
