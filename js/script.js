@@ -176,6 +176,8 @@ const sliderFunc = function (
   let curSlide = 0;
   const maxSlide = card.length;
 
+  if (!card || !card.length) throw new Error("No cards provided");
+
   const goToSlide = function (sld) {
     card.forEach(
       (s, i) => (s.style.transform = `${transXorY}(${transRate * (i - sld)}%)`)
@@ -208,8 +210,11 @@ const sliderFunc = function (
   if (topArrow) topArrow.addEventListener(`click`, nextSlide);
 
   // --- create Dots ---
+  // --- Clear existing dots ---
+  dotContainer.innerHTML = "";
   const createDots = function () {
     card.forEach(function (_, i) {
+      if (!dotContainer) throw new Error("dotContainer is required");
       dotContainer.insertAdjacentHTML(
         `beforeend`,
         `<button class="${sliderDotClass} ${sideDotClass}" data-slide="${i}"></button>`
@@ -256,15 +261,19 @@ const sliderFunc = function (
     endX = e.touches[0].clientX;
   });
   // --- calc move ---
+  const swipeValue = 50;
   sliderContainer.addEventListener(`touchend`, (e) => {
     const diffX = startX - endX;
-    if (diffX > 50) {
+    if (diffX > swipeValue) {
       // --- Swipe left ---
       nextSlide();
-    } else if (diffX < 50) {
+    } else if (diffX < swipeValue) {
+      // --- Swipe right ---
       prevSlide();
     }
   });
+
+  // --- smooth scroll ---
 };
 
 // --- courses slider ---
