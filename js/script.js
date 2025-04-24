@@ -274,6 +274,27 @@ const sliderFunc = function (
   });
 
   // --- smooth scroll ---
+  // --- define interval Globaly so we can have access to it outside of startAutoScroll ---
+  let scrollInterval;
+
+  const startAutoScroll = () => {
+    // --- Clear any existing interval ---
+    stopAutoScroll();
+    // --- Start new interval and store its ID ---
+    scrollInterval = setInterval(nextSlide, 2000);
+  };
+
+  const stopAutoScroll = () => {
+    clearInterval(scrollInterval);
+  };
+
+  // Start initially
+  startAutoScroll();
+
+  sliderContainer.addEventListener("mouseenter", stopAutoScroll);
+  sliderContainer.addEventListener("mouseleave", startAutoScroll);
+  sliderContainer.addEventListener("touchstart", stopAutoScroll);
+  sliderContainer.addEventListener("touchend", startAutoScroll);
 };
 
 // --- courses slider ---
